@@ -54,10 +54,14 @@ class ProcessosController extends Controller
 
             $tempoSegundos = $this->converterTempoParaSegundos($processo['dd_hh_mm_ss_mss'] ?? '');
 
-            $ehBloqueador = !empty($processo['blocking_session_id']) &&
-                           in_array($processo['session_id'], array_column($processos, 'blocking_session_id'));
+            // Verificar se este processo está bloqueando outros processos
+            $ehBloqueador = in_array($processo['session_id'], array_column($processos, 'blocking_session_id'));
 
-            if ($ehBloqueador && $tempoSegundos >= $parametros->tempo_destaque_segundos_total) {
+            // Verificar se o próprio processo NÃO está sendo bloqueado (campo blocking_session_id vazio)
+            $naoEstaSendoBloqueado = empty($processo['blocking_session_id']);
+
+            // Só destaca se for bloqueador, não estiver sendo bloqueado e tiver tempo >= X
+            if ($ehBloqueador && $naoEstaSendoBloqueado && $tempoSegundos >= $parametros->tempo_destaque_segundos_total) {
                 $processo['destacar_session'] = true;
 
                 if ($tempoSegundos >= $parametros->tempo_alerta_segundos_total) {
@@ -164,11 +168,13 @@ class ProcessosController extends Controller
                 $processo = (array) $processo;
                 $tempoSegundos = $this->converterTempoParaSegundos($processo['dd_hh_mm_ss_mss'] ?? '');
 
-                $sessionIds = array_column($processos, 'session_id');
-                $ehBloqueador = !empty($processo['blocking_session_id']) &&
-                               in_array($processo['session_id'], array_column($processos, 'blocking_session_id'));
+                // Verificar se este processo está bloqueando outros processos
+                $ehBloqueador = in_array($processo['session_id'], array_column($processos, 'blocking_session_id'));
 
-                if ($ehBloqueador && $tempoSegundos >= $parametros->tempo_alerta_segundos_total) {
+                // Verificar se o próprio processo NÃO está sendo bloqueado
+                $naoEstaSendoBloqueado = empty($processo['blocking_session_id']);
+
+                if ($ehBloqueador && $naoEstaSendoBloqueado && $tempoSegundos >= $parametros->tempo_alerta_segundos_total) {
                     $alertar = true;
                     break;
                 }

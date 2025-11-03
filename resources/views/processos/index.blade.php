@@ -37,7 +37,7 @@
                                     <th style="width: 120px;">Host</th>
                                     <th style="width: 100px;">Database</th>
                                     <th style="width: 120px;">Status</th>
-                                    <th style="width: 100px;">Bloqueando</th>
+                                    <th style="width: 100px;">Id Bloqueador</th>
                                     <th style="width: 80px;">Reads</th>
                                     <th style="width: 80px;">Writes</th>
                                     <th style="width: 80px;">CPU</th>

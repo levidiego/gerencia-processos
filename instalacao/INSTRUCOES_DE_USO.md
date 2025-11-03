@@ -374,3 +374,4 @@ Para dúvidas ou problemas:
 **Versão do Sistema**: 1.0
 **Data**: 01/11/2025
 **Desenvolvido com**: Laravel 8 + Bootstrap 5
+**Autor**: Levi Miranda

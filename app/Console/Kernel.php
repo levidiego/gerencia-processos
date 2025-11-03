@@ -15,7 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Executar kill automático a cada minuto
+        $schedule->command('processos:kill-automatico')
+                 ->everyMinute()
+                 ->withoutOverlapping()
+                 ->runInBackground();
     }
 
     /**
