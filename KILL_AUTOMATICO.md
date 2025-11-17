@@ -195,5 +195,26 @@ Para ver histórico:
 
 ---
 
-**Versão**: 1.0
-**Data**: 03/11/2025
+## ⚠️ Correções e Atualizações
+
+### 🔴 Correção Crítica - 05/11/2025 (v1.1)
+
+**Problema Identificado**: Bug crítico na conversão de tempo causava finalização incorreta de processos.
+
+- **Impacto**: 22 processos foram finalizados com **menos de 1 minuto** de execução
+- **Causa**: Função interpretava **segundos como minutos** devido ao formato do SQL Server
+- **Solução**: Função de conversão corrigida para interpretar corretamente o formato `dd hh:mm:ss.mss`
+- **Status**: ✅ **CORRIGIDO** - Sistema funcionando corretamente
+
+📄 **Documentação completa**: Consulte `CORRECAO_BUG_KILL_AUTOMATICO.md` para detalhes técnicos.
+
+**Após a correção**:
+- ✅ Apenas processos com >= 15 minutos (900s) são finalizados
+- ✅ Cálculo de tempo funcionando corretamente
+- ✅ 100% dos testes passando
+
+---
+
+**Versão**: 1.1
+**Data de Criação**: 03/11/2025
+**Última Atualização**: 05/11/2025

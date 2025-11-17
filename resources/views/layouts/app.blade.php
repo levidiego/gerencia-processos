@@ -144,6 +144,24 @@
             background: linear-gradient(135deg, {{ $corPrimaria }} 0%, {{ $corSecundaria }} 100%);
             color: white;
         }
+        /* Reduzir tamanho dos ícones < e > da paginação */
+        .pagination .page-link i,
+        .pagination .page-link i.bi,
+        .pagination .page-link i.bi-chevron-left,
+        .pagination .page-link i.bi-chevron-right {
+            font-size: 0.75rem !important;
+            width: auto !important;
+            height: auto !important;
+        }
+
+        /* Força o tamanho em todos os contextos */
+        nav .pagination .page-link i {
+            font-size: 0.75rem !important;
+        }
+
+        .card-footer .pagination .page-link i {
+            font-size: 0.75rem !important;
+        }
 
         /* Responsividade mobile */
         @media (max-width: 768px) {

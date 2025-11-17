@@ -35,11 +35,11 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Data Início</label>
-                                <input type="date" name="data_inicio" class="form-control" value="{{ request('data_inicio') }}">
+                                <input type="date" name="data_inicio" class="form-control" value="{{ $dataInicio }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Data Fim</label>
-                                <input type="date" name="data_fim" class="form-control" value="{{ request('data_fim') }}">
+                                <input type="date" name="data_fim" class="form-control" value="{{ $dataFim }}">
                             </div>
                             <div class="col-md-2 d-flex align-items-end">
                                 <button type="submit" class="btn btn-primary me-2">

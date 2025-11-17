@@ -105,7 +105,8 @@ class KillProcessosAutomatico extends Command
     }
 
     /**
-     * Converte tempo no formato dd:hh:mm:ss.mss para segundos
+     * Converte tempo no formato dd hh:mm:ss.mss para segundos
+     * Formato do SQL Server: "dd hh:mm:ss.mss" (com espaço entre dias e horas)
      *
      * @param string $tempo
      * @return int
@@ -114,24 +115,27 @@ class KillProcessosAutomatico extends Command
     {
         if (empty($tempo)) return 0;
 
-        // Formato esperado: dd:hh:mm:ss.mss
+        // Formato esperado: dd hh:mm:ss.mss (com ESPAÇO entre dias e horas)
+        // Exemplo: "00 00:00:42.157" = 42 segundos
+        if (preg_match('/^(\d+)\s+(\d+):(\d+):(\d+)\.(\d+)$/', $tempo, $matches)) {
+            $dias = (int)$matches[1];
+            $horas = (int)$matches[2];
+            $minutos = (int)$matches[3];
+            $segundos = (int)$matches[4];
+            // milissegundos ignorados para o cálculo
+
+            return ($dias * 24 * 60 * 60) + ($horas * 60 * 60) + ($minutos * 60) + $segundos;
+        }
+
+        // Fallback: tentar formato alternativo dd:hh:mm:ss.mss (sem espaço)
         $partes = explode(':', $tempo);
+        if (count($partes) >= 4) {
+            $dias = (int)$partes[0];
+            $horas = (int)$partes[1];
+            $minutos = (int)$partes[2];
 
-        if (count($partes) >= 3) {
-            $dias = isset($partes[0]) ? (int)$partes[0] : 0;
-            $horas = isset($partes[1]) ? (int)$partes[1] : 0;
-
-            // Separa minutos e segundos
-            $minutosSegundos = isset($partes[2]) ? $partes[2] : '0';
-            $minutosSegundosPartes = explode('.', $minutosSegundos);
-            $minutos = isset($minutosSegundosPartes[0]) ? (int)$minutosSegundosPartes[0] : 0;
-
-            // Segundos (se existir uma quarta parte ou decimal)
-            $segundos = 0;
-            if (isset($partes[3])) {
-                $segundosPartes = explode('.', $partes[3]);
-                $segundos = isset($segundosPartes[0]) ? (int)$segundosPartes[0] : 0;
-            }
+            $segundosPartes = explode('.', $partes[3]);
+            $segundos = (int)$segundosPartes[0];
 
             return ($dias * 24 * 60 * 60) + ($horas * 60 * 60) + ($minutos * 60) + $segundos;
         }
